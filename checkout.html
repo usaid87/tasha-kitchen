@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Tasha Home Products</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: rgba(241, 229, 214, 0.489); 
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-theme {
+      background-color: #c0392b;
+      color: #fff;
+      border: none;
+    }
+
+    .btn-theme:hover {
+      background-color: #a93226;
+      color: #fff;
+    }
+
+    .checkout-container {
+      margin-top: 80px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .form-label {
+      font-weight: 600;
+    }
+
+    #order-summary {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #order-summary img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    #cart-total {
+      color: #c0392b;
+      font-weight: bold;
+    }
+  </style>
+
+</head>
+<body>
+
+<div class="container py-5">
+  <h2 class="text-center mb-4 fw-bold"><i class="fa-solid fa-credit-card text-danger"></i> Checkout</h2>
+
+  <div class="row g-4">
+    <!-- ===== Left: Checkout Form ===== -->
+    <div class="col-lg-7">
+      <div class="checkout-container">
+        <h4 class="mb-3">Billing Details</h4>
+        <form id="checkout-form">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control" id="city" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Full Address</label>
+              <textarea class="form-control" id="address" rows="2" required></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Payment Method</label>
+              <select class="form-select" id="payment" required>
+                <option value="">Select...</option>
+                <option value="cod">Cash on Delivery</option>
+                <option value="card">Credit / Debit Card</option>
+                <option value="bank">Bank Transfer</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-theme w-100 mt-4">Place Order</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== Right: Order Summary ===== -->
+    <div class="col-lg-5">
+      <h4 class="mb-3">Order Summary</h4>
+      <div id="order-summary"></div>
+      <div class="text-end mt-3">
+        <h5>Total: Rs. <span id="cart-total">0</span></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const orderSummary = document.getElementById("order-summary");
+  const totalEl = document.getElementById("cart-total");
+  const form = document.getElementById("checkout-form");
+
+  function renderSummary() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    orderSummary.innerHTML = "";
+    let total = 0;
+
+    if (cart.length === 0) {
+      orderSummary.innerHTML = "<p>Your cart is empty.</p>";
+      return;
+    }
+
+    cart.forEach(item => {
+      total += item.price * item.quantity;
+      const div = document.createElement("div");
+      div.className = "d-flex align-items-center justify-content-between mb-2 border-bottom pb-2";
+      div.innerHTML = `
+        <div class="d-flex align-items-center">
+          <img src="${item.img}" alt="${item.name}">
+          <div class="ms-2">
+            <h6 class="mb-0">${item.name}</h6>
+            <small>Qty: ${item.quantity}</small>
+          </div>
+        </div>
+        <div class="price">Rs. ${(item.price * item.quantity).toLocaleString()}</div>
+      `;
+      orderSummary.appendChild(div);
+    });
+
+    totalEl.textContent = total.toLocaleString();
+  }
+
+  renderSummary();
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Basic form validation
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const payment = document.getElementById("payment").value;
+
+    if (!name || !email || !phone || !city || !address || !payment) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Show success message
+    alert("✅ Order placed successfully! Thank you for shopping with Tasha Home.");
+    localStorage.removeItem("cart");
+    window.location.href = "index.html"; // redirect to home or success page
+  });
+});
+</script>
+
+</body>
+</html>

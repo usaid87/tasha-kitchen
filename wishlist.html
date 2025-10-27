@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Wishlist | Tasha Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body { background-color: rgba(241, 229, 214, 0.489); font-family: 'Poppins', sans-serif; }
+    .btn-theme { background-color: #c0392b; color: #fff; border: none; }
+    .btn-theme:hover { background-color: #a93226; color: #fff; }
+    .cart-item-row { background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px; align-items: center; }
+    .cart-item-row img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+    .cart-item-row h5 { font-size: 1rem; margin: 0; }
+    .cart-item-row .price { color: #c0392b; font-weight: bold; }
+    .cart-item-row button { font-size: 0.9rem; }
+    .disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .cart-item-row {
+        font-size: 0.9rem;
+        gap: 10px;
+      }
+
+      .cart-item-row img {
+        width: 70px;
+        height: 70px;
+      }
+
+      #clear-wishlist {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <h2 class="text-center mb-4 fw-bold">
+    <i class="fa-solid fa-heart text-danger"></i> Your Wishlist
+  </h2>
+
+  <div id="wishlist-container" class="d-flex flex-column gap-3"></div>
+
+  <div class="text-end mt-4">
+    <button id="clear-wishlist" class="btn btn-danger mt-2">
+      <i class="fa-solid fa-trash"></i> Clear Wishlist
+    </button>
+  </div>
+</div>
+
+
+
+ <!-- ===== Footer Section ===== -->
+ <footer class="bg-dark text-light pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row gy-4">
+      
+      <!-- Brand Info -->
+      <div class="col-md-3">
+        <h5 class="fw-bold mb-3">👩‍🍳 TASHA Kitchen Store</h5>
+        <p>Your trusted store for cookware, appliances, and kitchen essentials.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Quick Links</h6>
+        <ul class="list-unstyled">
+          <li><a href="manual.html" class="text-light text-decoration-none">Manuals</a></li>
+          <li><a href="complain.html" class="text-light text-decoration-none">Register Complain</a></li>
+          <li><a href="feedback.html" class="text-light text-decoration-none">Feedback</a></li>
+        </ul>
+      </div>
+
+      <!-- Store Locators -->
+      <div class="col-md-4">
+        <h6 class="fw-bold mb-3">Store Location</h6>
+        <li><strong>Karachi Branch:</strong> Block B North Nazimabad, Karachi, Pakistan</li>
+        <a href="https://maps.app.goo.gl/LMHxjrUsCPwbLDPk9" id="map">Open Map</a>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-3">
+        <h6 class="fw-bold mb-3">Contact Us</h6>
+        <p class="small mb-1"><i class="fas fa-phone me-2"></i>+92 300 1234567</p>
+        <p class="small mb-1"><i class="fas fa-envelope me-2"></i>support@tashakitchen.com</p>
+        <p class="small"><i class="fas fa-globe me-2"></i>www.tashakitchen.com</p>
+
+        <!-- Social Icons -->
+        <div class="mt-3">
+          <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-light me-3"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Line -->
+    <hr class="mt-4 mb-3 text-light">
+    <div class="text-center small">
+      © 2025 TASHA Kitchen Store. All rights reserved.
+    </div>
+  </div>
+ </footer>
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const container = document.getElementById("wishlist-container");
+  const clearBtn = document.getElementById("clear-wishlist");
+
+  function renderWishlist() {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    container.innerHTML = "";
+
+    if (wishlist.length === 0) {
+      container.innerHTML = "<p class='text-center'>Your wishlist is empty.</p>";
+      return;
+    }
+
+    wishlist.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.className = "cart-item-row row text-center mb-3 align-items-center";
+      row.innerHTML = `
+        <div class="col-2"><img src="${item.img}" alt="${item.name}" class="img-fluid"></div>
+        <div class="col-4"><h5>${item.name}</h5></div>
+        <div class="col-2 price">Rs. ${item.price}</div>
+        <div class="col-2">
+          ${
+            item.allowCart
+              ? `<button class="btn btn-success btn-sm add-to-cart" data-id="${item.id}">
+                   <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                 </button>`
+              : `<button class="btn btn-secondary btn-sm disabled">
+                   <i class="fa-regular fa-clock"></i> comming soon
+                 </button>`
+          }
+        </div>
+        <div class="col-2">
+          <button class="btn btn-danger btn-sm remove" data-index="${index}">
+            <i class="fa-solid fa-trash"></i> Remove
+          </button>
+        </div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  // Handle Remove / Add to Cart
+  container.addEventListener("click", function (e) {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    if (e.target.closest(".remove")) {
+      const index = e.target.closest(".remove").dataset.index;
+      wishlist.splice(index, 1);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      renderWishlist();
+    }
+
+    if (e.target.closest(".add-to-cart")) {
+      const id = e.target.closest(".add-to-cart").dataset.id;
+      const product = wishlist.find(item => item.id === id);
+      if (product) addToCart(product);
+    }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("wishlist");
+    renderWishlist();
+  });
+
+  function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existing = cart.find(item => item.id === product.id);
+
+    if (existing) existing.quantity += 1;
+    else cart.push({ ...product, quantity: 1 });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+  }
+
+  renderWishlist();
+});
+
+// ===== Utility function to enable Add-to-Cart for specific items =====
+function enableCartForSelectedProducts(ids) {
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  wishlist.forEach(item => {
+    if (ids.includes(item.id)) item.allowCart = true;
+  });
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+
+// Example usage — you can call this line manually or via a button
+enableCartForSelectedProducts(["1", "5", "7", "12","9"]);
+</script>
+
+
+</body>
+</html>
