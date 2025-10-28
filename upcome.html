@@ -744,13 +744,13 @@
 
           let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-          // Check if already exists
+         
           if (wishlist.find(item => item.id === id)) {
             alert(`${name} is already in your wishlist!`);
             return;
           }
 
-          // Add new item (by default add-to-cart disabled)
+          
           wishlist.push({ id, name, price, img, allowCart: false });
 
           localStorage.setItem("wishlist", JSON.stringify(wishlist));
@@ -777,14 +777,15 @@
     countEl.textContent = totalCount;
    }
 
-    // Update count on page load
+    
     document.addEventListener("DOMContentLoaded", updateCartCount);
 
-    // Recalculate whenever cart changes (optional trigger for add-to-cart buttons)
     window.addEventListener("storage", updateCartCount);
 
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
+
+   
  </script>
 
 </body>

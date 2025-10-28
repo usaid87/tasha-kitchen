@@ -62,7 +62,7 @@
   <h2 class="text-center mb-4 fw-bold"><i class="fa-solid fa-credit-card text-danger"></i> Checkout</h2>
 
   <div class="row g-4">
-    <!-- ===== Left: Checkout Form ===== -->
+  
     <div class="col-lg-7">
       <div class="checkout-container">
         <h4 class="mb-3">Billing Details</h4>
@@ -93,8 +93,6 @@
               <select class="form-select" id="payment" required>
                 <option value="">Select...</option>
                 <option value="cod">Cash on Delivery</option>
-                <option value="card">Credit / Debit Card</option>
-                <option value="bank">Bank Transfer</option>
               </select>
             </div>
           </div>
@@ -159,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // Basic form validation
+    
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const phone = document.getElementById("phone").value.trim();
@@ -172,10 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Show success message
+
     alert("✅ Order placed successfully! Thank you for shopping with Tasha Home.");
     localStorage.removeItem("cart");
-    window.location.href = "index.html"; // redirect to home or success page
+    window.location.href = "index.html"; 
   });
 });
 </script>

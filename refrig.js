@@ -272,27 +272,27 @@ document.addEventListener("DOMContentLoaded", function () {
       const price = this.dataset.price;
       const img = this.dataset.img;
 
-      // Get existing cart from localStorage or create new one
+      
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      // Check if product already exists
+      
       const existingItem = cart.find(item => item.id === id);
       if (existingItem) {
-        existingItem.quantity += 1; // Increase quantity if already in cart
+        existingItem.quantity += 1; 
       } else {
         cart.push({ id, name, price, img, quantity: 1 });
       }
 
-      // Save back to localStorage
+      
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      // Confirmation alert
+      
       alert(`${name} has been added to your cart!`);
 
        document.addEventListener("DOMContentLoaded", function () {
     const cartButtons = document.querySelectorAll(".add-to-cart");
 
-    // Add item to localStorage cart
+    
     cartButtons.forEach(button => {
       button.addEventListener("click", function () {
         const id = this.dataset.id;
@@ -329,10 +329,9 @@ function updateCartCount() {
   countEl.textContent = totalCount;
 }
 
-// Update count on page load
 document.addEventListener("DOMContentLoaded", updateCartCount);
 
-// Recalculate whenever cart changes (optional trigger for add-to-cart buttons)
+
 window.addEventListener("storage", updateCartCount);
 
 localStorage.setItem("cart", JSON.stringify(cart));
