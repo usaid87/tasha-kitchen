@@ -394,15 +394,9 @@ function updateCartCount() {
   let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   countEl.textContent = totalCount;
 }
-
-
 document.addEventListener("DOMContentLoaded", updateCartCount);
 
-
 window.addEventListener("storage", updateCartCount);
-
-localStorage.setItem("cart", JSON.stringify(cart));
-updateCartCount();
 </script>
 
 

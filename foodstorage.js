@@ -281,37 +281,10 @@ document.addEventListener("DOMContentLoaded", function () {
      
       alert(`${name} has been added to your cart!`);
 
-       document.addEventListener("DOMContentLoaded", function () {
-    const cartButtons = document.querySelectorAll(".add-to-cart");
-
-    t
-    cartButtons.forEach(button => {
-      button.addEventListener("click", function () {
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        const price = parseFloat(this.dataset.price);
-        const img = this.dataset.img;
-
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        const existingItem = cart.find(item => item.id === id);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          cart.push({ id, name, price, img, quantity: 1 });
-        }
-
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartCount();
-        alert(`${name} added to your cart!`);
-      });
     });
-
-    
-  });
     });
+          updateCartCount();
   });
-});
 
 function updateCartCount() {
   const countEl = document.getElementById("cart-count");
@@ -327,5 +300,4 @@ document.addEventListener("DOMContentLoaded", updateCartCount);
 
 window.addEventListener("storage", updateCartCount);
 
-localStorage.setItem("cart", JSON.stringify(cart));
-updateCartCount();
+

@@ -760,6 +760,7 @@
       });
 
       updateWishlistCount();
+      updateCartCount();
     });
 
     function updateWishlistCount() {
@@ -781,9 +782,6 @@
     document.addEventListener("DOMContentLoaded", updateCartCount);
 
     window.addEventListener("storage", updateCartCount);
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount();
 
    
  </script>
